@@ -1,5 +1,5 @@
-.csv
-.parquet
+*.csv
+*.parquet
 .idea/
 
 # Byte-compiled / optimized / DLL files
