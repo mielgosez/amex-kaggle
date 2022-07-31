@@ -1,5 +1,9 @@
 # Source: https://medium.com/swlh/build-et-pipeline-with-pyspark-on-aws-ec2-1-setup-pyspark-environment-ff17d7f5544f
 
+# Install git
+sudo yum update -y
+sudo yum install git -y
+
 # Install Java
 cd /usr/local/
 sudo wget --no-cookies --no-check-certificate --header "Cookie: oraclelicense=accept-securebackup-cookie" https://javadl.oracle.com/webapps/download/AutoDL?BundleId=242980_a4634525489241b9a9e1aa73d9e118e6 -O jre-8u261-linux-x64.tar.gz
@@ -14,6 +18,15 @@ sudo vi profile
 # export JAVA_HOME
 # PATH=$PATH:$JAVA_HOME/bin
 # export PATH
+
+# Alternative
+wget http://downloads.typesafe.com/scala/2.11.6/scala-2.11.6.tgz
+tar -xzvf scala-2.11.6.tgz
+rm -rf scala-2.11.6.tgz
+vim ~/.bashrc
+export SCALA_HOME=/home/ec2-user/Downloads/scala-2.11.6
+export PATH=$PATH:/home/ec2-user/Downloads/scala-2.11.6/bin
+source ~/.bashrc
 
 # Installing Scala and SBT
 wget http://downloads.lightbend.com/scala/2.12.1/scala-2.12.1.rpm

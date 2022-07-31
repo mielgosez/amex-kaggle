@@ -1,3 +1,5 @@
+*.parquet
+*.crc
 *.csv
 *.parquet
 .idea/

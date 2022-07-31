@@ -69,7 +69,7 @@ class RawDataETL:
         """
         self.logger.info(f'Replacing {col} by {new_col}')
         unique_ids = self.df.select(col).distinct().sort(col).withColumn(new_col, monotonically_increasing_id())
-        unique_ids.write.parquet(path=f"../data/processed/{new_col}", mode='overwrite', partitionBy='id')
+        unique_ids.write.parquet(path=f"../data/processed/{new_col}", mode='overwrite', partitionBy=new_col)
         df_join = self.df.join(unique_ids, on=col, how='left').drop(col)
         self.df = df_join
 
