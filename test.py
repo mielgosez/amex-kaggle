@@ -3,7 +3,7 @@ import pandas as pd
 from amex_pipeline.data_schema import create_schema
 from amex_pipeline.process_raw_data import RawDataETL
 from amex_pipeline.schemae.schema_raw import schema_amex
-from amex_pipeline.process_parquet_raw_data import download_file_from_s3
+from amex_pipeline.process_parquet_raw_data import download_file_from_s3, ProcessedETL
 """
 connection = RawDataETL(file_path='./data/raw/small_train_data.csv',
                         schema_obj=schema_amex)
@@ -25,7 +25,13 @@ def _test_read_user_data():
     assert True
 
 
-def test_download_s3():
+def test_load_parquet():
+    etl = ProcessedETL(file_path='../data/processed/df/customer_ID',
+                       schema_obj=schema_amex)
+    etl.execute()
+
+
+def _test_download_s3():
     object_ids = ['0000f99513770170a1aba690daeeb8a96da4a39f11fc27da5c30a79db61c1e85',
                   '00013181a0c5fc8f1ea38cd2b90fe8ad2fa8cad9d9f13e4063bdf6b0f7d51eb6',
                   '0001337ded4e1c2539d1a78ff44a457bd4a95caa55ba1730b2849b92ea687f9e',
