@@ -63,6 +63,6 @@ sudo make altinstall
 sudo ln -s /usr/local/lib64/python3.7/lib-dynload /usr/local/lib/python3.7/lib-dynload
 sudo ln -s -f /usr/local/bin/python3.7 python
 sudo ln -s -f /usr/local/bin/pip3.7 /usr/bin/pip
-sudo pip install py4j
-sudo pip install findspark
-sudo pip install pyspark
+sudo pip3 install py4j
+sudo pip3 install findspark
+sudo pip3 install pyspark

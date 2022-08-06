@@ -15,6 +15,7 @@ class ProcessedETL(BaseETL):
     def __init__(self, file_path: str, schema_obj):
         self.__spark_session = SparkSession.builder.master("local[1]").appName("kaggle").config("spark.memory.offHeap.enabled","true").config("spark.memory.offHeap.size","10g").getOrCreate()
         self.__df = self.load_parquet_df(schema_to_load=schema_obj, file_path=file_path)
+        self.__target_df = self.session.read.format('csv').option('header', 'true').load('../data/train_labels.csv')
 
     def load_parquet_df(self, schema_to_load, file_path: str):
         df = self.__spark_session.read.format('parquet').schema(schema_to_load).load(file_path)
@@ -43,6 +44,8 @@ class ProcessedETL(BaseETL):
         self.df.drop(self.DATE_COL)
         result = self.df.groupBy(self.CUSTOMER_ID_COL).mean()
         result = result.fillna(0)
+        result = result.join(self.df_target, on=self.CUSTOMER_ID_COL, how='left')
+        result.write.parquet('../data/preprocessed_model.parquet')
         return result
 
     @property
@@ -52,6 +55,14 @@ class ProcessedETL(BaseETL):
     @df.setter
     def df(self, new_df: pyspark.sql.DataFrame):
         self.__df = new_df
+
+    @property
+    def df_target(self):
+        return self.__target_df
+
+    @df_target.setter
+    def df_target(self, new_df: pyspark.sql.DataFrame):
+        self.__target_df = new_df
 
     @property
     def session(self):
