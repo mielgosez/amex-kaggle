@@ -11,9 +11,8 @@ connection.execute()
 """
 
 
-
 def _test_small_train_data():
-    a = pd.read_csv('../data/raw/small_train_data.csv', encoding='utf-16')
+    a = pd.read_csv('./data/raw/small_train_data.csv', encoding='utf-16')
     create_schema(a)
     assert True
 
@@ -26,7 +25,7 @@ def _test_read_user_data():
 
 
 def test_load_parquet():
-    etl = ProcessedETL(file_path='../data/processed/df/customer_ID',
+    etl = ProcessedETL(file_path='./data/processed/df/customer_ID',
                        schema_obj=schema_amex)
     etl.execute()
 

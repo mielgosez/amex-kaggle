@@ -15,7 +15,7 @@ class ProcessedETL(BaseETL):
     def __init__(self, file_path: str, schema_obj):
         self.__spark_session = SparkSession.builder.master("local[1]").appName("kaggle").config("spark.memory.offHeap.enabled","true").config("spark.memory.offHeap.size","10g").getOrCreate()
         self.__df = self.load_parquet_df(schema_to_load=schema_obj, file_path=file_path)
-        self.__target_df = self.session.read.format('csv').option('header', 'true').load('../data/train_labels.csv')
+        self.__target_df = self.session.read.format('csv').option('header', 'true').load('./data/train_labels.csv')
 
     def load_parquet_df(self, schema_to_load, file_path: str):
         df = self.__spark_session.read.format('parquet').schema(schema_to_load).load(file_path)
@@ -45,7 +45,7 @@ class ProcessedETL(BaseETL):
         result = self.df.groupBy(self.CUSTOMER_ID_COL).mean()
         result = result.fillna(0)
         result = result.join(self.df_target, on=self.CUSTOMER_ID_COL, how='left')
-        result.write.parquet('../data/preprocessed_model.parquet')
+        result.write.parquet('./data/preprocessed_model.parquet')
         return result
 
     @property
@@ -86,7 +86,7 @@ def download_file_from_s3(bucket_name: str,
     bucket = s3.Bucket(bucket_name)
     objects = bucket.objects.filter(Prefix=folder_path).all()
     # Getting local path and creating local folder.
-    local_path = f'../data/processed/df/{id}'
+    local_path = f'./data/processed/df/{id}'
     os.mkdir(local_path)
     # Storing files.
     print(f'Processing {id}')

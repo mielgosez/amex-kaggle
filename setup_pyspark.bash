@@ -11,39 +11,29 @@ sudo tar -xzvf jre-8u261-linux-x64.tar.gz
 sudo mv jre1.8.0_261/ java
 sudo rm jre-8u261-linux-x64.tar.gz
 
-# Add JAVA_HOME
-cd /etc/
-sudo vi profile
-# JAVA_HOME=/usr/local/java
-# export JAVA_HOME
-# PATH=$PATH:$JAVA_HOME/bin
-# export PATH
 
 # Alternative
+cd $HOME
+mkdir Downloads
+cd Downloads
 wget http://downloads.typesafe.com/scala/2.11.6/scala-2.11.6.tgz
 tar -xzvf scala-2.11.6.tgz
 rm -rf scala-2.11.6.tgz
-vim ~/.bashrc
-export SCALA_HOME=/home/ec2-user/Downloads/scala-2.11.6
-export PATH=$PATH:/home/ec2-user/Downloads/scala-2.11.6/bin
-source ~/.bashrc
 
-# Installing Scala and SBT
-wget http://downloads.lightbend.com/scala/2.12.1/scala-2.12.1.rpm
-sudo zypper in scala-2.12.1.rpm
-wget https://dl.bintray.com/sbt/native-packages/sbt/0.13.13/sbt-0.13.13.tgz
-tar -xvf sbt-0.13.13.tgz
-mv sbt-launcher-packaging-0.13.13/ sbt
-sudo cp -r sbt /opt
-sudo ln -s /opt/sbt/bin/sbt /usr/local/bin
 
 # Installing spark
 wget http://archive.apache.org/dist/spark/spark-2.1.1/spark-2.1.1-bin-hadoop2.7.tgz
 sudo tar -zxvf spark-2.1.1-bin-hadoop2.7.tgz
 sudo mv spark-2.1.1-bin-hadoop2.7/ /usr/local/spark
-sudo vi .bashrc
-# cat .bashrc
-# export PATH=$PATH:/usr/local/spark/bin:/usr/local/spark/sbin
+
+# Update bashrc
+nano ~/.bashrc
+export SCALA_HOME=/home/ec2-user/Downloads/scala-2.11.6
+export PATH=$PATH:/home/ec2-user/Downloads/scala-2.11.6/bin
+export JAVA_HOME=/usr/local/java
+export PATH=$PATH:$JAVA_HOME/bin
+export PATH=$PATH:/usr/local/spark/bin:/usr/local/spark/sbin
+source ~/.bashrc
 
 # Then we add group and user spark
 sudo groupadd spark && sudo useradd -M -g spark -d /usr/local/spark spark
@@ -53,7 +43,6 @@ ssh-keygen -t rsa -P ""
 cat $HOME/.ssh/id_rsa.pub >> $HOME/.ssh/authorized_keys
 
 # Installing PySpark
-sudo zypper in zlib-devel bzip2 libbz2-devel libffi-devel libopenssl-devel readline-devel sqlite3 sqlite3-devel xz xz-devel gcc make
 wget https://www.python.org/ftp/python/3.7.1/Python-3.7.1.tar.xz
 tar -xf Python-3.7.1.tar.xz
 cd Python-3.7.1/
@@ -66,3 +55,11 @@ sudo ln -s -f /usr/local/bin/pip3.7 /usr/bin/pip
 sudo pip3 install py4j
 sudo pip3 install findspark
 sudo pip3 install pyspark
+sudo pip3 install pandas
+sudo pip3 install boto3
+
+git clone https://github.com/mielgosez/amex-kaggle.git
+nano ~/.bashrc
+export PYTHONPATH=/home/ec2-user/amex-kaggle
+export raw_data_path=../data/raw/small_train_data.csv
+export bucket_name=kaggle-amex-mielgosez
