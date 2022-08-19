@@ -58,8 +58,12 @@ sudo pip3 install pyspark
 sudo pip3 install pandas
 sudo pip3 install boto3
 
+cd $HOME
 git clone https://github.com/mielgosez/amex-kaggle.git
 nano ~/.bashrc
 export PYTHONPATH=/home/ec2-user/amex-kaggle
-export raw_data_path=../data/raw/small_train_data.csv
+export raw_data_path=./data/raw/small_train_data.csv
 export bucket_name=kaggle-amex-mielgosez
+source ~/.bashrc
+
+aws s3 cp s3://kaggle-amex-mielgosez/processed/ ./ --recursive --only-show-errors

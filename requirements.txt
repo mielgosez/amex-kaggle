@@ -1,3 +1,7 @@
 pyspark
 pandas
+tensorflow
+scikit-learn
+numpy
+pyarrow
 boto3
